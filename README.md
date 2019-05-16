@@ -1,6 +1,6 @@
 # OutputDeviceSwitcher
 Changes the sound output device when Voicemeeter is opened/closed.  
-Note: This program was only tested in Windows and may not work on other operating systems.
+Note: This program was only tested on Windows and may not work on other operating systems.
 ## Getting Started
 ### Prerequesites
 + Any version of [Voicemeeter](https://www.vb-audio.com/Voicemeeter/)
@@ -15,6 +15,7 @@ Important note: Since the program needs the [AudioEndpointConnector](https://git
 
 # Authors
 + Trojaner - *Initial work* - [TrojanerHD](https://github.com/TrojanerHD)
+
 See also the list of [contributors](https://github.com/TrojanerHD/contributors) who participated in this project.
 
 # Acknowledgments
