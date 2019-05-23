@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.mainNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.notifyMenuOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.notfifyMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.notifyMenuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.voicemeeterVersionDescription = new System.Windows.Forms.TextBox();
             this.voicemeeterVersionComboBox = new System.Windows.Forms.ComboBox();
             this.defaultVoicemeeterOutputDescription = new System.Windows.Forms.TextBox();
@@ -38,12 +42,12 @@
             this.defaultNonVoicemeeterOutputDeviceDescription = new System.Windows.Forms.TextBox();
             this.defaultNonVoicemeeterOutputDevice = new System.Windows.Forms.ComboBox();
             this.updateNonVoiceMeeterOutputDevice = new System.Windows.Forms.Button();
-            this.notifyMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.notifyMenuOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.notfifyMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.notifyMenuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.minimizeMessage = new System.Windows.Forms.CheckBox();
+            this.intervalDescription = new System.Windows.Forms.TextBox();
+            this.intervalField = new System.Windows.Forms.NumericUpDown();
+            this.notifyMenuQuit = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.intervalField)).BeginInit();
             this.SuspendLayout();
             // 
             // mainNotifyIcon
@@ -54,6 +58,42 @@
             this.mainNotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("mainNotifyIcon.Icon")));
             this.mainNotifyIcon.Text = "OutputDeviceSwitcher";
             this.mainNotifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainNotifyIcon_MouseClick);
+            // 
+            // notifyMenuStrip
+            // 
+            this.notifyMenuStrip.BackColor = System.Drawing.Color.White;
+            this.notifyMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.notifyMenuOpen,
+            this.notfifyMenuSeparator,
+            this.notifyMenuQuit,
+            this.notifyMenuExit});
+            this.notifyMenuStrip.Name = "notifyMenuStrip";
+            this.notifyMenuStrip.Size = new System.Drawing.Size(105, 76);
+            // 
+            // notifyMenuOpen
+            // 
+            this.notifyMenuOpen.BackColor = System.Drawing.Color.White;
+            this.notifyMenuOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.notifyMenuOpen.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notifyMenuOpen.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.notifyMenuOpen.Name = "notifyMenuOpen";
+            this.notifyMenuOpen.Size = new System.Drawing.Size(104, 22);
+            this.notifyMenuOpen.Text = "Open";
+            this.notifyMenuOpen.ToolTipText = "Opens the OutputDeviceSwitcher";
+            this.notifyMenuOpen.Click += new System.EventHandler(this.NotifyMenuOpen_Click);
+            // 
+            // notfifyMenuSeparator
+            // 
+            this.notfifyMenuSeparator.ForeColor = System.Drawing.SystemColors.Control;
+            this.notfifyMenuSeparator.Name = "notfifyMenuSeparator";
+            this.notfifyMenuSeparator.Size = new System.Drawing.Size(101, 6);
+            // 
+            // notifyMenuExit
+            // 
+            this.notifyMenuExit.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.notifyMenuExit.Name = "notifyMenuExit";
+            this.notifyMenuExit.Size = new System.Drawing.Size(104, 22);
+            this.notifyMenuExit.Text = "Exit";
             // 
             // voicemeeterVersionDescription
             // 
@@ -149,47 +189,12 @@
             this.updateNonVoiceMeeterOutputDevice.UseVisualStyleBackColor = true;
             this.updateNonVoiceMeeterOutputDevice.Click += new System.EventHandler(this.UpdateNonVoiceMeeterOutputDevice_Click);
             // 
-            // notifyMenuStrip
-            // 
-            this.notifyMenuStrip.BackColor = System.Drawing.Color.White;
-            this.notifyMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.notifyMenuOpen,
-            this.notfifyMenuSeparator,
-            this.notifyMenuExit});
-            this.notifyMenuStrip.Name = "notifyMenuStrip";
-            this.notifyMenuStrip.Size = new System.Drawing.Size(105, 54);
-            // 
-            // notifyMenuOpen
-            // 
-            this.notifyMenuOpen.BackColor = System.Drawing.Color.White;
-            this.notifyMenuOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.notifyMenuOpen.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notifyMenuOpen.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.notifyMenuOpen.Name = "notifyMenuOpen";
-            this.notifyMenuOpen.Size = new System.Drawing.Size(104, 22);
-            this.notifyMenuOpen.Text = "Open";
-            this.notifyMenuOpen.ToolTipText = "Opens the OutputDeviceSwitcher";
-            this.notifyMenuOpen.Click += new System.EventHandler(this.NotifyMenuOpen_Click);
-            // 
-            // notfifyMenuSeparator
-            // 
-            this.notfifyMenuSeparator.ForeColor = System.Drawing.SystemColors.Control;
-            this.notfifyMenuSeparator.Name = "notfifyMenuSeparator";
-            this.notfifyMenuSeparator.Size = new System.Drawing.Size(101, 6);
-            // 
-            // notifyMenuExit
-            // 
-            this.notifyMenuExit.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.notifyMenuExit.Name = "notifyMenuExit";
-            this.notifyMenuExit.Size = new System.Drawing.Size(104, 22);
-            this.notifyMenuExit.Text = "Exit";
-            // 
             // minimizeMessage
             // 
             this.minimizeMessage.AutoSize = true;
             this.minimizeMessage.Checked = true;
             this.minimizeMessage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.minimizeMessage.Location = new System.Drawing.Point(12, 90);
+            this.minimizeMessage.Location = new System.Drawing.Point(12, 120);
             this.minimizeMessage.Name = "minimizeMessage";
             this.minimizeMessage.Size = new System.Drawing.Size(155, 17);
             this.minimizeMessage.TabIndex = 9;
@@ -197,12 +202,58 @@
             this.minimizeMessage.UseVisualStyleBackColor = true;
             this.minimizeMessage.Click += new System.EventHandler(this.UpdateOptions);
             // 
+            // intervalDescription
+            // 
+            this.intervalDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.intervalDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.intervalDescription.Cursor = System.Windows.Forms.Cursors.Default;
+            this.intervalDescription.ForeColor = System.Drawing.SystemColors.Control;
+            this.intervalDescription.Location = new System.Drawing.Point(12, 90);
+            this.intervalDescription.Name = "intervalDescription";
+            this.intervalDescription.ReadOnly = true;
+            this.intervalDescription.Size = new System.Drawing.Size(194, 20);
+            this.intervalDescription.TabIndex = 10;
+            this.intervalDescription.TabStop = false;
+            this.intervalDescription.Text = "Check interval in ms";
+            // 
+            // intervalField
+            // 
+            this.intervalField.Location = new System.Drawing.Point(226, 91);
+            this.intervalField.Maximum = new decimal(new int[] {
+            -727379969,
+            232,
+            0,
+            0});
+            this.intervalField.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.intervalField.Name = "intervalField";
+            this.intervalField.Size = new System.Drawing.Size(263, 20);
+            this.intervalField.TabIndex = 12;
+            this.intervalField.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.intervalField.ValueChanged += new System.EventHandler(this.UpdateOptions);
+            // 
+            // notifyMenuQuit
+            // 
+            this.notifyMenuQuit.Name = "notifyMenuQuit";
+            this.notifyMenuQuit.Size = new System.Drawing.Size(104, 22);
+            this.notifyMenuQuit.Text = "Quit";
+            this.notifyMenuQuit.Click += new System.EventHandler(this.NotifyMenuQuit_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.ClientSize = new System.Drawing.Size(581, 116);
+            this.ClientSize = new System.Drawing.Size(581, 147);
+            this.Controls.Add(this.intervalField);
+            this.Controls.Add(this.intervalDescription);
             this.Controls.Add(this.minimizeMessage);
             this.Controls.Add(this.updateNonVoiceMeeterOutputDevice);
             this.Controls.Add(this.defaultNonVoicemeeterOutputDevice);
@@ -219,6 +270,7 @@
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.Resize += new System.EventHandler(this.MainWindow_Resize);
             this.notifyMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.intervalField)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,6 +291,9 @@
         private System.Windows.Forms.ToolStripSeparator notfifyMenuSeparator;
         private System.Windows.Forms.ToolStripMenuItem notifyMenuExit;
         private System.Windows.Forms.CheckBox minimizeMessage;
+        private System.Windows.Forms.TextBox intervalDescription;
+        private System.Windows.Forms.NumericUpDown intervalField;
+        private System.Windows.Forms.ToolStripMenuItem notifyMenuQuit;
     }
 }
 

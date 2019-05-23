@@ -9,5 +9,6 @@ namespace OutputDeviceSwitcher {
         public string DefaultNonVoicemeeterOutputDevice { get; set; }
 
         public bool NotShowMinimizeMessage { get; set; }
+        public int Interval { get; set; }
     }
 }

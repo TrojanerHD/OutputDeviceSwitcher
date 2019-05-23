@@ -13,6 +13,7 @@ namespace OutputDeviceSwitcher {
         private const string ControllerExePath = @"EndPointController.exe";
         private readonly List<string> _voicemeeterOutputDevices = new List<string>();
         private static readonly Dictionary<int, string> OutputDevices = new Dictionary<int, string>();
+        private bool _ignoreUpdating = false;
 
         public MainWindow() {
             if (!File.Exists(@"settings.json"))
@@ -41,6 +42,12 @@ namespace OutputDeviceSwitcher {
         }
 
         private void UpdateOptions(object sender, EventArgs e) {
+            if (_ignoreUpdating) return;
+            if (_settings.Interval != decimal.ToInt32(intervalField.Value)) {
+                _settings.Interval = decimal.ToInt32(intervalField.Value);
+                CheckVoicemeeterProcessRunning(_settings, defaultNonVoicemeeterOutputDevice, defaultVoicemeeterOutputDevice);
+            }
+
             _settings.VoicemeeterVersion =
                 voicemeeterVersionComboBox.Items[voicemeeterVersionComboBox.SelectedIndex].ToString();
             if (defaultVoicemeeterOutputDevice.SelectedIndex != -1) _settings.DefaultVoicemeeterOutputDevice = defaultVoicemeeterOutputDevice.Items[defaultVoicemeeterOutputDevice.SelectedIndex].ToString();
@@ -50,23 +57,26 @@ namespace OutputDeviceSwitcher {
         }
 
         private void MainWindow_Load(object sender, EventArgs e) {
+            intervalField.Maximum = int.MaxValue;
             minimizeMessage.Checked = !_settings.NotShowMinimizeMessage;
+
+            _ignoreUpdating = true;
+            intervalField.Value = _settings.Interval;
+            _ignoreUpdating = false;
+
             voicemeeterVersionComboBox.SelectedIndex =
                 voicemeeterVersionComboBox.FindStringExact(_settings.VoicemeeterVersion);
-            
+
             UpdateNonVoiceMeeterOutputDevice_Click(sender, e);
+
             UpdateVoicemeeterVersionDeviceInputs();
             defaultVoicemeeterOutputDevice.SelectedIndex =
                 defaultVoicemeeterOutputDevice.FindStringExact(_settings.DefaultVoicemeeterOutputDevice);
             defaultNonVoicemeeterOutputDevice.SelectedIndex =
                 defaultNonVoicemeeterOutputDevice.FindStringExact(_settings.DefaultNonVoicemeeterOutputDevice);
 
-            var processlist = Process.GetProcesses();
-            Process voicemeeterProcess = null;
-            foreach (var process in processlist)
-                if (process.ProcessName.ToLower().StartsWith(@"voicemeeter"))
-                    voicemeeterProcess = process;
-            CheckVoicemeeterProcessRunning(100, voicemeeterProcess, defaultNonVoicemeeterOutputDevice, defaultVoicemeeterOutputDevice);
+
+            CheckVoicemeeterProcessRunning(_settings, defaultNonVoicemeeterOutputDevice, defaultVoicemeeterOutputDevice);
         }
 
         private void VoicemeeterVersionComboBox_SelectedIndexChanged(object sender, EventArgs e) {
@@ -135,7 +145,13 @@ namespace OutputDeviceSwitcher {
             }
         }
 
-        private static async void CheckVoicemeeterProcessRunning(int interval, Process voicemeeterProcess, ComboBox nonVoicemeeterOutputDevice, ComboBox defaultVoiceMeeterOutputDevice) {
+        private static async void CheckVoicemeeterProcessRunning(Settings settings, ComboBox nonVoicemeeterOutputDevice, ComboBox defaultVoiceMeeterOutputDevice) {
+            var processlist = Process.GetProcesses();
+            Process voicemeeterProcess = null;
+            foreach (var process in processlist)
+                if (process.ProcessName.ToLower().StartsWith(@"voicemeeter"))
+                    voicemeeterProcess = process;
+
             var lastState = voicemeeterProcess == null ? 0 : Process.GetProcessesByName(voicemeeterProcess.ProcessName).Length;
             while (true) {
                 var newState = voicemeeterProcess == null ? 0 : Process.GetProcessesByName(voicemeeterProcess.ProcessName).Length;
@@ -147,7 +163,7 @@ namespace OutputDeviceSwitcher {
                 }
 
                 lastState = newState;
-                await Task.Delay(interval);
+                await Task.Delay(settings.Interval);
             }
         }
 
@@ -201,6 +217,10 @@ namespace OutputDeviceSwitcher {
         private void RestoreWindow() {
             Show();
             WindowState = FormWindowState.Normal;
+        }
+
+        private void NotifyMenuQuit_Click(object sender, EventArgs e) {
+            Application.Exit();
         }
     }
 }
