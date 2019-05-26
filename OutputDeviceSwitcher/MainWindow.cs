@@ -61,6 +61,8 @@ namespace OutputDeviceSwitcher {
             minimizeMessage.Checked = !_settings.NotShowMinimizeMessage;
 
             _ignoreUpdating = true;
+            if (_settings.Interval < 100)
+                _settings.Interval = 1000;
             intervalField.Value = _settings.Interval;
             _ignoreUpdating = false;
 
@@ -69,7 +71,7 @@ namespace OutputDeviceSwitcher {
 
             UpdateNonVoiceMeeterOutputDevice_Click(sender, e);
 
-            UpdateVoicemeeterVersionDeviceInputs();
+            UpdateVoicemeeterVersionDeviceInputs(sender, e);
             defaultVoicemeeterOutputDevice.SelectedIndex =
                 defaultVoicemeeterOutputDevice.FindStringExact(_settings.DefaultVoicemeeterOutputDevice);
             defaultNonVoicemeeterOutputDevice.SelectedIndex =
@@ -80,12 +82,13 @@ namespace OutputDeviceSwitcher {
         }
 
         private void VoicemeeterVersionComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-            UpdateVoicemeeterVersionDeviceInputs();
+            UpdateVoicemeeterVersionDeviceInputs(sender, e);
             UpdateOptions(sender, e);
         }
 
-        private void UpdateVoicemeeterVersionDeviceInputs() {
+        private void UpdateVoicemeeterVersionDeviceInputs(object sender, EventArgs e) {
             // Change the dropdown for the Voicemeeter output devices depending on which version of Voicemeeter was selected
+            if(voicemeeterVersionComboBox.SelectedIndex == -1) return; 
             _voicemeeterOutputDevices.Clear();
             defaultVoicemeeterOutputDevice.Items.Clear();
             switch (voicemeeterVersionComboBox.Items[voicemeeterVersionComboBox.SelectedIndex]) {
@@ -106,6 +109,7 @@ namespace OutputDeviceSwitcher {
             }
 
             _voicemeeterOutputDevices.ForEach(device => defaultVoicemeeterOutputDevice.Items.Add(device));
+            UpdateNonVoiceMeeterOutputDevice_Click(sender, e);
         }
 
         private void UpdateNonVoiceMeeterOutputDevice_Click(object sender, EventArgs e) {
