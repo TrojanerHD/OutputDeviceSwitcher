@@ -13,7 +13,7 @@ namespace OutputDeviceSwitcher {
         private const string ControllerExePath = @"EndPointController.exe";
         private readonly List<string> _voicemeeterOutputDevices = new List<string>();
         private static readonly Dictionary<int, string> OutputDevices = new Dictionary<int, string>();
-        private bool _ignoreUpdating = false;
+        private bool _ignoreUpdating;
 
         public MainWindow() {
             if (!File.Exists(@"settings.json"))
@@ -88,7 +88,7 @@ namespace OutputDeviceSwitcher {
 
         private void UpdateVoicemeeterVersionDeviceInputs(object sender, EventArgs e) {
             // Change the dropdown for the Voicemeeter output devices depending on which version of Voicemeeter was selected
-            if(voicemeeterVersionComboBox.SelectedIndex == -1) return; 
+            if (voicemeeterVersionComboBox.SelectedIndex == -1) return;
             _voicemeeterOutputDevices.Clear();
             defaultVoicemeeterOutputDevice.Items.Clear();
             switch (voicemeeterVersionComboBox.Items[voicemeeterVersionComboBox.SelectedIndex]) {
@@ -113,7 +113,7 @@ namespace OutputDeviceSwitcher {
         }
 
         private void UpdateNonVoiceMeeterOutputDevice_Click(object sender, EventArgs e) {
-            if (System.IO.File.Exists(ControllerExePath)) {
+            if (File.Exists(ControllerExePath)) {
                 var p = new Process {
                     StartInfo = {
                         UseShellExecute = false,
@@ -158,6 +158,13 @@ namespace OutputDeviceSwitcher {
 
             var lastState = voicemeeterProcess == null ? 0 : Process.GetProcessesByName(voicemeeterProcess.ProcessName).Length;
             while (true) {
+                if (voicemeeterProcess == null) {
+                    processlist = Process.GetProcesses();
+                    foreach (var process in processlist)
+                        if (process.ProcessName.ToLower().StartsWith(@"voicemeeter"))
+                            voicemeeterProcess = process;
+                }
+
                 var newState = voicemeeterProcess == null ? 0 : Process.GetProcessesByName(voicemeeterProcess.ProcessName).Length;
                 if (newState != lastState) {
                     if (newState == 0)
