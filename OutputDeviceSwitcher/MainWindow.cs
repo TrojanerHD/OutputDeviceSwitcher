@@ -33,6 +33,7 @@ namespace OutputDeviceSwitcher {
                     break;
                 case FormWindowState.Normal:
                     mainNotifyIcon.Visible = false;
+                    ShowInTaskbar = true;
                     break;
                 case FormWindowState.Maximized:
                     break;
@@ -48,17 +49,25 @@ namespace OutputDeviceSwitcher {
                 CheckVoicemeeterProcessRunning(_settings, defaultNonVoicemeeterOutputDevice, defaultVoicemeeterOutputDevice);
             }
 
+
             _settings.VoicemeeterVersion =
                 voicemeeterVersionComboBox.Items[voicemeeterVersionComboBox.SelectedIndex].ToString();
             if (defaultVoicemeeterOutputDevice.SelectedIndex != -1) _settings.DefaultVoicemeeterOutputDevice = defaultVoicemeeterOutputDevice.Items[defaultVoicemeeterOutputDevice.SelectedIndex].ToString();
             if (defaultNonVoicemeeterOutputDevice.SelectedIndex != -1) _settings.DefaultNonVoicemeeterOutputDevice = defaultNonVoicemeeterOutputDevice.Items[defaultNonVoicemeeterOutputDevice.SelectedIndex].ToString();
             _settings.NotShowMinimizeMessage = !minimizeMessage.Checked;
+            _settings.StartMinimized = startMinimizedCheckBox.Checked;
             File.WriteAllText(@"settings.json", JsonConvert.SerializeObject(_settings));
         }
 
         private void MainWindow_Load(object sender, EventArgs e) {
             intervalField.Maximum = int.MaxValue;
             minimizeMessage.Checked = !_settings.NotShowMinimizeMessage;
+            startMinimizedCheckBox.Checked = _settings.StartMinimized;
+            if (_settings.StartMinimized) {
+                ShowInTaskbar = false;
+                WindowState = FormWindowState.Minimized;
+            }
+
 
             _ignoreUpdating = true;
             if (_settings.Interval < 100)

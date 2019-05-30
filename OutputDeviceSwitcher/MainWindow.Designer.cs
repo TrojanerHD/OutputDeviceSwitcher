@@ -34,6 +34,7 @@
             this.notifyMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.notifyMenuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.notfifyMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.notifyMenuQuit = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyMenuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.voicemeeterVersionDescription = new System.Windows.Forms.TextBox();
             this.voicemeeterVersionComboBox = new System.Windows.Forms.ComboBox();
@@ -45,7 +46,7 @@
             this.minimizeMessage = new System.Windows.Forms.CheckBox();
             this.intervalDescription = new System.Windows.Forms.TextBox();
             this.intervalField = new System.Windows.Forms.NumericUpDown();
-            this.notifyMenuQuit = new System.Windows.Forms.ToolStripMenuItem();
+            this.startMinimizedCheckBox = new System.Windows.Forms.CheckBox();
             this.notifyMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.intervalField)).BeginInit();
             this.SuspendLayout();
@@ -87,6 +88,13 @@
             this.notfifyMenuSeparator.ForeColor = System.Drawing.SystemColors.Control;
             this.notfifyMenuSeparator.Name = "notfifyMenuSeparator";
             this.notfifyMenuSeparator.Size = new System.Drawing.Size(101, 6);
+            // 
+            // notifyMenuQuit
+            // 
+            this.notifyMenuQuit.Name = "notifyMenuQuit";
+            this.notifyMenuQuit.Size = new System.Drawing.Size(104, 22);
+            this.notifyMenuQuit.Text = "Quit";
+            this.notifyMenuQuit.Click += new System.EventHandler(this.NotifyMenuQuit_Click);
             // 
             // notifyMenuExit
             // 
@@ -239,19 +247,24 @@
             0});
             this.intervalField.ValueChanged += new System.EventHandler(this.UpdateOptions);
             // 
-            // notifyMenuQuit
+            // startMinimizedCheckBox
             // 
-            this.notifyMenuQuit.Name = "notifyMenuQuit";
-            this.notifyMenuQuit.Size = new System.Drawing.Size(104, 22);
-            this.notifyMenuQuit.Text = "Quit";
-            this.notifyMenuQuit.Click += new System.EventHandler(this.NotifyMenuQuit_Click);
+            this.startMinimizedCheckBox.AutoSize = true;
+            this.startMinimizedCheckBox.Location = new System.Drawing.Point(12, 143);
+            this.startMinimizedCheckBox.Name = "startMinimizedCheckBox";
+            this.startMinimizedCheckBox.Size = new System.Drawing.Size(96, 17);
+            this.startMinimizedCheckBox.TabIndex = 13;
+            this.startMinimizedCheckBox.Text = "Start minimized";
+            this.startMinimizedCheckBox.UseVisualStyleBackColor = true;
+            this.startMinimizedCheckBox.Click += new System.EventHandler(this.UpdateOptions);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.ClientSize = new System.Drawing.Size(581, 147);
+            this.ClientSize = new System.Drawing.Size(581, 172);
+            this.Controls.Add(this.startMinimizedCheckBox);
             this.Controls.Add(this.intervalField);
             this.Controls.Add(this.intervalDescription);
             this.Controls.Add(this.minimizeMessage);
@@ -294,6 +307,7 @@
         private System.Windows.Forms.TextBox intervalDescription;
         private System.Windows.Forms.NumericUpDown intervalField;
         private System.Windows.Forms.ToolStripMenuItem notifyMenuQuit;
+        private System.Windows.Forms.CheckBox startMinimizedCheckBox;
     }
 }
 
