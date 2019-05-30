@@ -10,5 +10,7 @@ namespace OutputDeviceSwitcher {
 
         public bool NotShowMinimizeMessage { get; set; }
         public int Interval { get; set; }
+
+        public bool StartMinimized { get; set; }
     }
 }
